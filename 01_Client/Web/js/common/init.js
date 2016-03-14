@@ -1,0 +1,1 @@
+AV.initialize(CONST.APPID, CONST.APPKEY);

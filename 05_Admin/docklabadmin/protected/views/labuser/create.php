@@ -19,14 +19,16 @@ Yii::app()->clientScript->registerScript("load", '
 		var nickName = $("#nickname").val().trim(),
             avatar = $("#avatar")[0].files[0],
             username = $("#username").val().trim(),
+            mail = $("#mail").val().trim(),
+			number = $("#number").val().trim(),
             password = $("#password").val().trim();
         if (avatar) {
             var avatarFile = new AV.File("avatar-" + Users.id, avatar);
             avatarFile.save().then(function () {
                 Users.set("nickName", nickName);
                 Users.set("avatar", avatarFile);
-                Users.set("mobilePhoneNumber", username);
-                Users.set("mobilePhoneVerified", true);
+                Users.set("mobilePhoneNumber", number);
+                Users.set("email", mail);
                 Users.set("username", username);
                 Users.set("active", 1);
                 Users.set("password", password);
@@ -52,8 +54,16 @@ Yii::app()->clientScript->registerScript("load", '
 		<form id="user-form" onsubmit="return false;">
 			<p class="note">有<span class="required">*</span>是必填项目。</p>
 			<div class="row">
-				<label for="username" class="required">手机号&nbsp;<span class="required">*</span></label>
+				<label for="username" class="required">用户名&nbsp;<span class="required">*</span></label>
 				<input size="16" maxlength="16" id="username" name="username" type="text" />
+			</div>
+			<div class="row">
+				<label for="number" class="required">手机号&nbsp;<span class="required">*</span></label>
+				<input size="16" maxlength="16" id="number" name="number" type="text" />
+			</div>
+			<div class="row">
+				<label for="mail" class="required">邮箱&nbsp;<span class="required">*</span></label>
+				<input size="16" id="mail" name="mail" type="text" />
 			</div>
 			<div class="row">
 				<label for="password" class="required">密码&nbsp;<span class="required">*</span></label>

@@ -266,10 +266,10 @@
                             <div class="input-group custom-search-form">
                                 <input type="text" class="form-control" placeholder="Search...">
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </span>
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
                             </div>
                             <!-- /input-group -->
                         </li>
@@ -348,11 +348,11 @@
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
-                        <li class="active">
+                        <li>
                             <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a class="active" href="blank.html">Blank Page</a>
+                                    <a href="blank.html">Blank Page</a>
                                 </li>
                                 <li>
                                     <a href="login.html">Login Page</a>
@@ -367,18 +367,54 @@
             <!-- /.navbar-static-side -->
         </nav>
 
-        <!-- Page Content -->
         <div id="page-wrapper">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">Blank</h1>
-                    </div>
-                    <!-- /.col-lg-12 -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">User Profile</h1>
                 </div>
-                <!-- /.row -->
+                <!-- /.col-lg-12 -->
             </div>
-            <!-- /.container-fluid -->
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Basic Profile
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-offset-3 col-lg-6">
+                                    <form role="form">
+                                        <div class="form-group">
+                                            <label>Avatar</label><br>
+                                            <img class="col-lg-6" src="">
+                                            <input id="avatar" type="file">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Nickname</label>
+                                            <input id="nickname" class="form-control" placeholder="Enter Nickname">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>E-Mail</label>
+                                            <input id="mail" class="form-control" type="email" placeholder="Enter E-Mail">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Cellphone</label>
+                                            <input id="phone" class="form-control" placeholder="Enter Cellphone">
+                                        </div>
+                                        <button type="button" class="btn btn-default">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
         </div>
         <!-- /#page-wrapper -->
 
@@ -396,6 +432,18 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
+
+    <!-- AV JavaScript -->
+    <script src="../js/av-mini.js"></script>
+
+    <!-- Underscore JavaScript -->
+    <script src="../js/underscore-min.js"></script>
+
+    <!-- Custom Page JavaScript -->
+    <script src="../js/common/CONST.js"></script>
+    <script src="../js/common/init.js"></script>
+    <script src="../js/common/page.js"></script>
+    <script src="../js/page/userprofile.js"></script>
 
 </body>
 
