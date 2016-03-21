@@ -27,15 +27,15 @@ var NV = React.createClass({
           initialRoute={{
             title: '',
             component: Index,
-            // rightButtonTitle: 'LogOut',
-            // onRightButtonPress: () => {Alert.alert(
-            //   'LogOut?',
-            //   '',
-            //   [
-            //     {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
-            //     {text: 'OK', onPress: () => {AV.User.logOut();}},
-            //   ]
-            // )},
+            rightButtonTitle: 'LogOut',
+            onRightButtonPress: () => {Alert.alert(
+              'LogOut?',
+              '',
+              [
+                {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
+                {text: 'OK', onPress: () => {AV.User.logOut();}},
+              ]
+            )},
           }}
           />
       );

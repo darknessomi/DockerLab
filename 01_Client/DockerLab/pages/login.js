@@ -5,6 +5,7 @@
 'use strict';
 var React = require('react-native');
 var AV = require('./../common/init');
+var Index = require('./index');
 
 var {
   	StyleSheet,
@@ -22,15 +23,15 @@ var Login = React.createClass({
   login: function() {
     var User = AV.Object.extend("User");
     var that = this;
-    User.logIn(this.state.username, this.state.password).then(function (user) {
-        Alert.alert('Success',
-          'Welcome back',
-          [
-            {text: 'OK'},
-          ]
-        )
-        that.props.navigator.popToTop();
-    }, function (error) {
+    User.logIn(this.state.username, this.state.password).then((currentUser)=>{
+      Alert.alert('Success',
+        'Welcome back',
+        [
+          {text: 'OK'},
+        ]
+      )
+      // that.props.navigator.popToTop();
+    }).catch(function(error) {
       Alert.alert('Error',
         error.message,
         [

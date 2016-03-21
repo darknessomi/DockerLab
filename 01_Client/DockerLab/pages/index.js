@@ -38,12 +38,11 @@ var sliderImgs = [
 
 var Index = React.createClass({
   getInitialState: function() {
-    this.checklogin();
     return null;
   },
-  checklogin: function () {
+  componentDidMount: function () {
     var that = this;
-    AV.User.currentAsync().then((currentUser)=>{  
+    AV.User.currentAsync().then((currentUser)=>{
       that.user = currentUser;
       if (!that.user) {
         that.props.navigator.push({
@@ -58,6 +57,8 @@ var Index = React.createClass({
           nickName: that.user.get("nickName")?that.user.get("nickName"):""
         })
       }
+    }).catch(function(error) {
+      alert("Login Error: ", error.message);
     });
   },
   render: function() {
