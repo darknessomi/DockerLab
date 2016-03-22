@@ -5,7 +5,7 @@
 'use strict';
 var React = require('react-native');
 var AV = require('./../common/init');
-var Index = require('./index');
+var Route = require('./route');
 
 var {
   	StyleSheet,
@@ -18,7 +18,6 @@ var {
     Alert,
     NavigatorIOS,
 } = React;
-
 var Login = React.createClass({
   login: function() {
     var User = AV.Object.extend("User");
@@ -30,7 +29,10 @@ var Login = React.createClass({
           {text: 'OK'},
         ]
       )
-      // that.props.navigator.popToTop();
+      that.props.navigator.resetTo({
+        title: '',
+        component: Route.getPageIndex(),
+      });
     }).catch(function(error) {
       Alert.alert('Error',
         error.message,
@@ -77,6 +79,7 @@ var styles = StyleSheet.create({
       paddingLeft:15,
       paddingRight:15,
       paddingTop:15,
+      marginTop:64,
   	},
   //input
     input:{

@@ -5,7 +5,7 @@ var Index = require('./pages/index');
 var Login = require('./pages/login');
 var AV = require('./common/init');
 var CONST = require('./common/CONST');
-require('./pages/page');
+var Page = require('./pages/page');
 
 var {
     NavigatorIOS,
@@ -26,16 +26,7 @@ var NV = React.createClass({
           shadowHidden ture
           initialRoute={{
             title: '',
-            component: Index,
-            rightButtonTitle: 'LogOut',
-            onRightButtonPress: () => {Alert.alert(
-              'LogOut?',
-              '',
-              [
-                {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
-                {text: 'OK', onPress: () => {AV.User.logOut();}},
-              ]
-            )},
+            component: Page,
           }}
           />
       );

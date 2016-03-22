@@ -5,8 +5,7 @@
 'use strict';
 var React = require('react-native');
 var AV = require('./../common/init');
-var Login = require('./login');
-
+var Route = require('./route');
 var {
   	StyleSheet,
   	Text,
@@ -44,14 +43,7 @@ var Index = React.createClass({
     var that = this;
     AV.User.currentAsync().then((currentUser)=>{
       that.user = currentUser;
-      if (!that.user) {
-        that.props.navigator.push({
-          ref: 'login',
-          title: 'Login',
-          component: Login,
-          leftButtonTitle: ' '
-        });
-      } else {
+      if (that.user) {
         that.setState({
           avatar: that.user.get("avatar")?that.user.get("avatar")._url:"",
           nickName: that.user.get("nickName")?that.user.get("nickName"):""
@@ -69,6 +61,13 @@ var Index = React.createClass({
             <Image style={[styles.avatar]} source={{uri:this.state?this.state.avatar:""}}></Image>
           </View>
           <Text style={[styles.nickname]}>hi, {this.state?this.state.nickName:""}</Text>
+          <Text style={[styles.setting]} onPress={() => this.props.navigator.push({
+              ref: 'setting',
+              title: 'Setting',
+              component: Route.getPageSetting(),
+            })}>
+            <Image style={[styles.setting]} source={require('.././img/gear.png')}></Image>
+          </Text>
         </View>
         <ScrollView>
         <View style={styles.container}>
@@ -216,6 +215,11 @@ var styles = StyleSheet.create({
       height:62,
       borderRadius: 31,
     },
+    setting:{
+      marginRight: 20,
+      width:40,
+      height:40
+    },
     nickname:{
       flex:2,
       fontSize:16,
@@ -227,7 +231,6 @@ var styles = StyleSheet.create({
 	//container
   	container:{
     	backgroundColor:'#F2F2F2',
-      marginTop:-64,
       paddingBottom:1000,
     	flex:1,
   	},
