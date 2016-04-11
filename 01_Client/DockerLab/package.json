@@ -1,13 +1,18 @@
 {
   "name": "DockerLab",
   "version": "0.0.1",
-  "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/darknessomi/DockerLab.git"
+  },
+  "license": "GPL-3.0",
   "dependencies": {
     "avoscloud-sdk": "^1.0.0-rc7",
-    "react-native": "^0.21.0",
+    "react": "^0.14.8",
+    "react-native": "^0.23.1",
     "react-native-swiper": "^1.4.3",
     "react-timer-mixin": "^0.13.3"
   }
