@@ -45,9 +45,10 @@ var Index = React.createClass({
       that.user = currentUser;
       if (that.user) {
         that.setState({
-          avatar: that.user.get("avatar")?that.user.get("avatar")._url:"",
+          avatar: that.user.get("avatar")?that.user.get("avatar").get("url"):"",
           nickName: that.user.get("nickName")?that.user.get("nickName"):""
         })
+        console.log(that.user);
       }
     }).catch(function(error) {
       alert("Login Error: ", error.message);

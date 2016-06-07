@@ -58,5 +58,8 @@ docs/_build/
 # PyBuilder
 target/
 
+# ignore mac file
+.DS_Store
+
 #Ipython Notebook
 .ipynb_checkpoints
