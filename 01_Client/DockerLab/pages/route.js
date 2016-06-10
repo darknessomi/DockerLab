@@ -3,31 +3,21 @@
  * https://github.com/facebook/react-native
  */
 'use strict';
-var React = require('react-native');
-var AV = require('./../common/init');
-var UTIL = require('./../common/UTIL');
 
-var {
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
-    Image,
-    TouchableHighlight,
-    ScrollView,
-    Alert
-} = React;
+import setting from './setting';
+import login from './login';
+import index from './index';
 
-var Route = {
+const Route = {
   getPageSetting: function() {
-    return require('./setting');
+    return setting;
   },
   getPageLogin: function() {
-    return require('./login');
+    return login;
   },
   getPageIndex: function() {
-    return require('./index');
+    return index;
   },
 };
 
-module.exports = Route;
+export default Route;

@@ -3,25 +3,30 @@
  * https://github.com/facebook/react-native
  */
 'use strict';
-var React = require('react-native');
-var AV = require('./../common/init');
-var Route = require('./route');
+import AV from './../common/init';
+import Route from './route';
 
-var {
-  	StyleSheet,
-  	Text,
-    TextInput,
-  	View,
-  	Image,
-  	TouchableHighlight,
-    ScrollView,
-    Alert,
-    NavigatorIOS,
-} = React;
-var Login = React.createClass({
-  login: function() {
-    var User = AV.Object.extend("User");
-    var that = this;
+import React, { 
+    Component,
+    PropTypes,
+} from 'react';
+
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Image,
+  TouchableHighlight,
+  ScrollView,
+  Alert,
+  NavigatorIOS
+} from 'react-native';
+
+export default class Login extends Component{
+  login() {
+    let User = AV.Object.extend("User");
+    let that = this;
     User.logIn(this.state.username, this.state.password).then((currentUser)=>{
       Alert.alert('Success',
         'Welcome back',
@@ -41,8 +46,8 @@ var Login = React.createClass({
         ]
       )
     });
-  },
-  render: function() {
+  }
+  render() {
     return (
       <ScrollView>
       <View style={styles.container}>
@@ -71,8 +76,9 @@ var Login = React.createClass({
       </ScrollView>
     );
   }
-});
-var styles = StyleSheet.create({
+}
+
+let styles = StyleSheet.create({
 	//container
   	container:{
     	flex:1,
@@ -111,6 +117,3 @@ var styles = StyleSheet.create({
     },
 });
 
-
-
-module.exports = Login;

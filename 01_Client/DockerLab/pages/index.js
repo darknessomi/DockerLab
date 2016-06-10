@@ -3,20 +3,26 @@
  * https://github.com/facebook/react-native
  */
 'use strict';
-var React = require('react-native');
-var AV = require('./../common/init');
-var Route = require('./route');
-var {
-  	StyleSheet,
-  	Text,
-    TextInput,
-  	View,
-  	Image,
-  	TouchableHighlight,
-    ScrollView,
-} = React;
 
-var BUIcon = [
+import AV from './../common/init';
+import Route from './route';
+
+import React, { 
+    Component,
+    PropTypes,
+} from 'react';
+
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Image,
+  TouchableHighlight,
+  ScrollView,
+} from 'react-native';
+
+let BUIcon = [
 	'https://raw.githubusercontent.com/vczero/vczero.github.io/master/ctrip/%E6%9C%AA%E6%A0%87%E9%A2%98-1.png',
 	'https://raw.githubusercontent.com/vczero/vczero.github.io/master/ctrip/feiji.png',
 	'https://raw.githubusercontent.com/vczero/vczero.github.io/master/ctrip/lvyou.png',
@@ -24,37 +30,59 @@ var BUIcon = [
 
 ];
 
-var Images = [
+let Images = [
 	'http://webresource.c-ctrip.com/ResCRMOnline/R5/html5/images/zzz_pic_salead01.png',
 	'http://images3.c-ctrip.com/rk/apph5/B1/201505/app_home_ad06_310_120.jpg'
 ];
 
-var sliderImgs = [
+let sliderImgs = [
   'http://images3.c-ctrip.com/SBU/apph5/201505/16/app_home_ad16_640_128.png',
   'http://images3.c-ctrip.com/rk/apph5/C1/201505/app_home_ad49_640_128.png',
   'http://images3.c-ctrip.com/rk/apph5/D1/201506/app_home_ad05_640_128.jpg'
 ];
 
-var Index = React.createClass({
-  getInitialState: function() {
-    return null;
-  },
-  componentDidMount: function () {
-    var that = this;
+export default class Index extends Component{
+
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    let that = this;
     AV.User.currentAsync().then((currentUser)=>{
       that.user = currentUser;
       if (that.user) {
-        that.setState({
-          avatar: that.user.get("avatar")?that.user.get("avatar").get("url"):"",
-          nickName: that.user.get("nickName")?that.user.get("nickName"):""
-        })
+        let query = new AV.Query("Host");
+        query.equalTo("creater", that.user);
+        query.find().then(
+            function(hosts) {
+                if (hosts.length > 0) {
+                  that.setState({
+                    avatar: that.user.get("avatar")?that.user.get("avatar").get("url"):"",
+                    nickName: that.user.get("nickName")?that.user.get("nickName"):"",
+                    hostNumber: hosts?hosts.length:0
+                  })
+                } else {
+                  that.setState({
+                    avatar: that.user.get("avatar")?that.user.get("avatar").get("url"):"",
+                    nickName: that.user.get("nickName")?that.user.get("nickName"):"",
+                    hostNumber: 0
+                  })
+                }
+            },
+            function(error) {
+                alert(error.message);
+            }
+        );
         console.log(that.user);
       }
     }).catch(function(error) {
+      console.log(error);
       alert("Login Error: ", error.message);
     });
-  },
-  render: function() {
+  }
+
+  render() {
     return (
       <View style={styles.body}>
         <View style={styles.topuser}>
@@ -73,128 +101,129 @@ var Index = React.createClass({
         <ScrollView>
         <View style={styles.container}>
           <View style={[styles.sbu_red, styles.sbu_view]}>
-          	<TouchableHighlight underlayColor={'#FA6778'} style={{flex:1}}>
-  	        	<View style={[styles.sbu_flex, styles.sbu_borderRight]}>
-  	        		<View style={[styles.sub_con_flex, styles.sub_text]}>
-  	        			<Text style={[styles.font16]}>酒店</Text>
-  	        		</View>
-  	        		<View style={[styles.sub_con_flex]}>
-  	        			<Image style={[styles.sbu_icon_img]} source={{uri:BUIcon[0]}}></Image>
-  	        		</View>
-  	        	</View>
-  	        </TouchableHighlight>
-          	<View style={[styles.sbu_flex, styles.sbu_borderRight]}>
-          		<View style={[styles.sub_con_flex, styles.sub_text, styles.sbu_borderBottom]}>
-          			<Text style={[styles.font16]}>海外</Text>
-          		</View>
-          		<View style={[styles.sub_con_flex, styles.sub_text]}>
-          			<Text style={[styles.font16]}>周边</Text>
-          		</View>
-          	</View>
-          	<View style={[styles.sbu_flex]}>
-          		<View style={[styles.sub_con_flex, styles.sub_text, styles.sbu_borderBottom]}>
-          			<Text style={[styles.font16]}>团购.特惠</Text>
-          		</View>
-          		<View style={[styles.sub_con_flex, styles.sub_text]}>
-          			<Text style={[styles.font16]}>客栈.公寓</Text>
-          		</View>
-          	</View>
+            <TouchableHighlight underlayColor={'#FA6778'} style={{flex:1}}>
+              <View style={[styles.sbu_flex, styles.sbu_borderRight]}>
+                <View style={[styles.sub_con_flex, styles.sub_text]}>
+                  <Text style={[styles.font16]}>主机</Text>
+                </View>
+                <View style={[styles.sub_con_flex]}>
+                  <Image style={[styles.sbu_icon_img]} source={{uri:BUIcon[0]}}></Image>
+                </View>
+              </View>
+            </TouchableHighlight>
+            <View style={[styles.sbu_flex, styles.sbu_borderRight]}>
+              <View style={[styles.sub_con_flex, styles.sub_text, styles.sbu_borderBottom]}>
+                <Text style={[styles.font16]}>数量</Text>
+              </View>
+              <View style={[styles.sub_con_flex, styles.sub_text]}>
+                <Text style={[styles.font16]}>周边</Text>
+              </View>
+            </View>
+            <View style={[styles.sbu_flex]}>
+              <View style={[styles.sub_con_flex, styles.sub_text, styles.sbu_borderBottom]}>
+                <Text style={[styles.font16]}>{this.state?this.state.hostNumber:""}</Text>
+              </View>
+              <View style={[styles.sub_con_flex, styles.sub_text]}>
+                <Text style={[styles.font16]}>客栈.公寓</Text>
+              </View>
+            </View>
           </View>
 
           <View style={[styles.sbu_view, styles.sbu_blue]}>
-          	<View style={[styles.sbu_flex, styles.sbu_borderRight]}>
-          		<View style={[styles.sub_con_flex, styles.sub_text]}>
-          			<Text style={[styles.font16]}>机票</Text>
-          		</View>
-          		<View style={[styles.sub_con_flex]}>
-          			<Image style={[styles.sbu_icon_img]} source={{uri:BUIcon[1]}}></Image>
-          		</View>
-          	</View>
-          	<View style={[styles.sbu_flex, styles.sbu_borderRight]}>
-          		<View style={[styles.sub_con_flex, styles.sub_text, styles.sbu_borderBottom]}>
-          			<Text style={[styles.font16]}>火车票</Text>
-          		</View>
-          		<View style={[styles.sub_con_flex, styles.sub_text]}>
-          			<Text style={[styles.font16]}>接收机</Text>
-          		</View>
-          	</View>
-          	<View style={[styles.sbu_flex]}>
-          		<View style={[styles.sub_con_flex, styles.sub_text, styles.sbu_borderBottom]}>
-          			<Text style={[styles.font16]}>汽车票</Text>
-          		</View>
-          		<View style={[styles.sub_con_flex, styles.sub_text]}>
-          			<Text style={[styles.font16]}>自驾.专车</Text>
-          		</View>
-          	</View>
+            <View style={[styles.sbu_flex, styles.sbu_borderRight]}>
+              <View style={[styles.sub_con_flex, styles.sub_text]}>
+                <Text style={[styles.font16]}>机票</Text>
+              </View>
+              <View style={[styles.sub_con_flex]}>
+                <Image style={[styles.sbu_icon_img]} source={{uri:BUIcon[1]}}></Image>
+              </View>
+            </View>
+            <View style={[styles.sbu_flex, styles.sbu_borderRight]}>
+              <View style={[styles.sub_con_flex, styles.sub_text, styles.sbu_borderBottom]}>
+                <Text style={[styles.font16]}>火车票</Text>
+              </View>
+              <View style={[styles.sub_con_flex, styles.sub_text]}>
+                <Text style={[styles.font16]}>接收机</Text>
+              </View>
+            </View>
+            <View style={[styles.sbu_flex]}>
+              <View style={[styles.sub_con_flex, styles.sub_text, styles.sbu_borderBottom]}>
+                <Text style={[styles.font16]}>汽车票</Text>
+              </View>
+              <View style={[styles.sub_con_flex, styles.sub_text]}>
+                <Text style={[styles.font16]}>自驾.专车</Text>
+              </View>
+            </View>
           </View>
 
           <View style={[styles.sbu_view, styles.sbu_green]}>
-          	<View style={[styles.sbu_flex, styles.sbu_borderRight]}>
-          		<View style={[styles.sub_con_flex, styles.sub_text]}>
-          			<Text style={[styles.font16]}>旅游</Text>
-          		</View>
-          		<View style={[styles.sub_con_flex]}>
-          			<Image style={[styles.sbu_icon_img]} source={{uri:BUIcon[2]}}></Image>
-          		</View>
-          	</View>
-          	<View style={[styles.sbu_flex, styles.sbu_borderRight]}>
-          		<View style={[styles.sub_con_flex, styles.sub_text, styles.sbu_borderBottom]}>
-          			<Text style={[styles.font16]}>门票.玩乐</Text>
-          		</View>
-          		<View style={[styles.sub_con_flex, styles.sub_text]}>
-          			<Text style={[styles.font16]}>出境WiFi</Text>
-          		</View>
-          	</View>
-          	<View style={[styles.sbu_flex]}>
-          		<View style={[styles.sub_con_flex, styles.sub_text, styles.sbu_borderBottom]}>
-          			<Text style={[styles.font16]}>邮轮</Text>
-          		</View>
-          		<View style={[styles.sub_con_flex, styles.sub_text]}>
-          			<Text style={[styles.font16]}>签证</Text>
-          		</View>
-          	</View>
+            <View style={[styles.sbu_flex, styles.sbu_borderRight]}>
+              <View style={[styles.sub_con_flex, styles.sub_text]}>
+                <Text style={[styles.font16]}>旅游</Text>
+              </View>
+              <View style={[styles.sub_con_flex]}>
+                <Image style={[styles.sbu_icon_img]} source={{uri:BUIcon[2]}}></Image>
+              </View>
+            </View>
+            <View style={[styles.sbu_flex, styles.sbu_borderRight]}>
+              <View style={[styles.sub_con_flex, styles.sub_text, styles.sbu_borderBottom]}>
+                <Text style={[styles.font16]}>门票.玩乐</Text>
+              </View>
+              <View style={[styles.sub_con_flex, styles.sub_text]}>
+                <Text style={[styles.font16]}>出境WiFi</Text>
+              </View>
+            </View>
+            <View style={[styles.sbu_flex]}>
+              <View style={[styles.sub_con_flex, styles.sub_text, styles.sbu_borderBottom]}>
+                <Text style={[styles.font16]}>邮轮</Text>
+              </View>
+              <View style={[styles.sub_con_flex, styles.sub_text]}>
+                <Text style={[styles.font16]}>签证</Text>
+              </View>
+            </View>
           </View>
           <View style={[styles.sbu_view, styles.sbu_yellow]}>
-          	<View style={[styles.sbu_flex, styles.sbu_borderRight]}>
-          		<View style={[styles.sub_con_flex, styles.sub_text]}>
-          			<Text style={[styles.font16]}>攻略</Text>
-          		</View>
-          		<View style={[styles.sub_con_flex]}>
-          			<Image style={[styles.sbu_icon_img]} source={{uri:BUIcon[3]}}></Image>
-          		</View>
-          	</View>
-          	<View style={[styles.sbu_flex, styles.sbu_borderRight]}>
-          		<View style={[styles.sub_con_flex, styles.sub_text, styles.sbu_borderBottom]}>
-          			<Text style={[styles.font16]}>周末游</Text>
-          		</View>
-          		<View style={[styles.sub_con_flex, styles.sub_text]}>
-          			<Text style={[styles.font16]}>礼品卡</Text>
-          		</View>
-          	</View>
-          	<View style={[styles.sbu_flex]}>
-          		<View style={[styles.sub_con_flex, styles.sub_text, styles.sbu_borderBottom]}>
-          			<Text style={[styles.font16]}>美食.购物</Text>
-          		</View>
-          		<View style={[styles.sub_con_flex, styles.sub_text]}>
-          			<Text style={[styles.font16]}>更多</Text>
-          		</View>
-          	</View>
+            <View style={[styles.sbu_flex, styles.sbu_borderRight]}>
+              <View style={[styles.sub_con_flex, styles.sub_text]}>
+                <Text style={[styles.font16]}>攻略</Text>
+              </View>
+              <View style={[styles.sub_con_flex]}>
+                <Image style={[styles.sbu_icon_img]} source={{uri:BUIcon[3]}}></Image>
+              </View>
+            </View>
+            <View style={[styles.sbu_flex, styles.sbu_borderRight]}>
+              <View style={[styles.sub_con_flex, styles.sub_text, styles.sbu_borderBottom]}>
+                <Text style={[styles.font16]}>周末游</Text>
+              </View>
+              <View style={[styles.sub_con_flex, styles.sub_text]}>
+                <Text style={[styles.font16]}>礼品卡</Text>
+              </View>
+            </View>
+            <View style={[styles.sbu_flex]}>
+              <View style={[styles.sub_con_flex, styles.sub_text, styles.sbu_borderBottom]}>
+                <Text style={[styles.font16]}>美食.购物</Text>
+              </View>
+              <View style={[styles.sub_con_flex, styles.sub_text]}>
+                <Text style={[styles.font16]}>更多</Text>
+              </View>
+            </View>
           </View>
           <View style={[styles.img_view]}>
-          	<View style={[styles.img_flex, {borderRightWidth:0.5}]}>
-          		<Image style={[styles.img_wh]} source={{uri:Images[0]}}></Image>
-          	</View>
-          	<View style={[styles.img_flex, {borderLeftWidth:0,}]}>
+            <View style={[styles.img_flex, {borderRightWidth:0.5}]}>
+              <Image style={[styles.img_wh]} source={{uri:Images[0]}}></Image>
+            </View>
+            <View style={[styles.img_flex, {borderLeftWidth:0,}]}>
               <Image style={[styles.img_wh]} source={{uri:Images[1]}}></Image>
-          	</View>
+            </View>
           </View>
         </View>
         </ScrollView>
       </View>
     );
   }
-});
-var styles = StyleSheet.create({
+}
+
+let styles = StyleSheet.create({
   // body
     body:{
       backgroundColor:'#F2F2F2',
@@ -313,7 +342,3 @@ var styles = StyleSheet.create({
   		resizeMode:Image.resizeMode.contain,
   	},
 });
-
-
-
-module.exports = Index;

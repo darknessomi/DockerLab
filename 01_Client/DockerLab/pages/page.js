@@ -3,28 +3,31 @@
  * https://github.com/facebook/react-native
  */
 'use strict';
-var React = require('react-native');
-var AV = require('./../common/init');
-var UTIL = require('./../common/UTIL');
-var Route = require('./route');
+import AV from './../common/init';
+import Route from './route';
 
-var {
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
-    Image,
-    TouchableHighlight,
-    ScrollView,
-    Alert
-} = React;
+import React, { 
+    Component,
+    PropTypes,
+} from 'react';
 
-var Page = React.createClass({
-  getInitialState: function() {
-    return null;
-  },
-  componentDidMount: function () {
-    var that = this;
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Image,
+  TouchableHighlight,
+  ScrollView,
+  Alert
+} from 'react-native';
+
+export default class Page extends Component{
+  constructor(props) {
+    super(props);
+  }
+  componentDidMount() {
+    let that = this;
     AV.User.currentAsync().then((currentUser)=>{
       that.user = currentUser;
       if (that.user) {
@@ -41,12 +44,12 @@ var Page = React.createClass({
         });
       }
     }).catch(function(error) {
+      console.log(error)
       alert("Login Error: ", error.message);
     });
-  },
-  render: function() {
+  }
+  render() {
     return null;
   }
-});
+}
 
-module.exports = Page;

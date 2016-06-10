@@ -3,30 +3,37 @@
  * https://github.com/facebook/react-native
  */
 'use strict';
-var React = require('react-native');
-var AV = require('./../common/init');
-var Route = require('./route');
-var {
-  	StyleSheet,
-  	Text,
+import AV from './../common/init';
+import Route from './route';
+
+import React, { 
+    Component,
+    PropTypes,
+} from 'react';
+
+import {
+  StyleSheet,
+    Text,
     TextInput,
-  	View,
-  	Image,
-  	TouchableHighlight,
+    View,
+    Image,
+    TouchableHighlight,
     Alert,
     NavigatorIOS,
     ListView,
     ScrollView
-} = React;
-var Setting = React.createClass({
-  getInitialState: function() {
+} from 'react-native';
+
+export default class Setting extends Component{
+  constructor(props) {
+    super(props);
     var User = AV.Object.extend("User");
     var list = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    return {
+    this.state = {
       dataSource: list.cloneWithRows(['Request', 'About']),
-    }
-  },
-  render: function() {
+    };
+  }
+  render() {
     return (
       <ScrollView style={styles.container}>
         <ListView
@@ -54,7 +61,7 @@ var Setting = React.createClass({
       </ScrollView>
     );
   }
-});
+};
 var styles = StyleSheet.create({
 	//container
   	container:{
@@ -100,6 +107,3 @@ var styles = StyleSheet.create({
     },
 });
 
-
-
-module.exports = Setting;
