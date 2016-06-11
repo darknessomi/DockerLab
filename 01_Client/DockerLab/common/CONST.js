@@ -1,6 +1,6 @@
-var CONST = {
+const CONST = {
     APPID: "ydWXnAgiiobHVwka1ArLvQuR-gzGzoHsz",
     APPKEY: "cgu9KpfvGFiny8ne8TN6pnKo",
     DATALIMIT: 100,
 };
-module.exports = CONST;
+export default CONST;

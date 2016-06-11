@@ -1,5 +1,5 @@
-var AV = require('avoscloud-sdk');
-var CONST = require('./CONST');
+import AV from 'avoscloud-sdk';
+import CONST from './CONST';
 
 AV.init({
   appId: CONST.APPID,
@@ -7,4 +7,4 @@ AV.init({
 });
 AV.Promise.setPromisesAPlusCompliant(true);
 
-module.exports = AV;
+export default AV;

@@ -27,8 +27,8 @@ import {
 export default class Setting extends Component{
   constructor(props) {
     super(props);
-    var User = AV.Object.extend("User");
-    var list = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    let User = AV.Object.extend("User");
+    let list = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
       dataSource: list.cloneWithRows(['Request', 'About']),
     };

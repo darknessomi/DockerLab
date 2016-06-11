@@ -22,25 +22,6 @@ import {
   ScrollView,
 } from 'react-native';
 
-let BUIcon = [
-	'https://raw.githubusercontent.com/vczero/vczero.github.io/master/ctrip/%E6%9C%AA%E6%A0%87%E9%A2%98-1.png',
-	'https://raw.githubusercontent.com/vczero/vczero.github.io/master/ctrip/feiji.png',
-	'https://raw.githubusercontent.com/vczero/vczero.github.io/master/ctrip/lvyou.png',
-	'https://raw.githubusercontent.com/vczero/vczero.github.io/master/ctrip/gonglue.png'
-
-];
-
-let Images = [
-	'http://webresource.c-ctrip.com/ResCRMOnline/R5/html5/images/zzz_pic_salead01.png',
-	'http://images3.c-ctrip.com/rk/apph5/B1/201505/app_home_ad06_310_120.jpg'
-];
-
-let sliderImgs = [
-  'http://images3.c-ctrip.com/SBU/apph5/201505/16/app_home_ad16_640_128.png',
-  'http://images3.c-ctrip.com/rk/apph5/C1/201505/app_home_ad49_640_128.png',
-  'http://images3.c-ctrip.com/rk/apph5/D1/201506/app_home_ad05_640_128.jpg'
-];
-
 export default class Index extends Component{
 
   constructor(props) {
@@ -51,35 +32,35 @@ export default class Index extends Component{
     let that = this;
     AV.User.currentAsync().then((currentUser)=>{
       that.user = currentUser;
-      if (that.user) {
-        let query = new AV.Query("Host");
-        query.equalTo("creater", that.user);
-        query.find().then(
-            function(hosts) {
-                if (hosts.length > 0) {
-                  that.setState({
-                    avatar: that.user.get("avatar")?that.user.get("avatar").get("url"):"",
-                    nickName: that.user.get("nickName")?that.user.get("nickName"):"",
-                    hostNumber: hosts?hosts.length:0
-                  })
-                } else {
-                  that.setState({
-                    avatar: that.user.get("avatar")?that.user.get("avatar").get("url"):"",
-                    nickName: that.user.get("nickName")?that.user.get("nickName"):"",
-                    hostNumber: 0
-                  })
-                }
-            },
-            function(error) {
-                alert(error.message);
-            }
-        );
-        console.log(that.user);
-      }
-    }).catch(function(error) {
+      AV.Cloud.run("home", {}, {
+          success: function(result) {
+            that.setState({
+              avatar: that.user.get("avatar")?that.user.get("avatar").get("url"):"",
+              nickName: that.user.get("nickName")?that.user.get("nickName"):"",
+              hostNumber: result.Hosts?result.Hosts.length:0,
+              AlertNumber: result.Alert?result.Alert:0,
+              UseNumber: result.Use?result.Use:0,
+              DLNumber: result.DL?result.DL:0,
+              ContainerNumber: result.Container?result.Container.length:0,
+              ImageNumber: result.Image?result.Image.length:0,
+            })
+          },
+          error: function(error) {
+              alert(error.message);
+          }
+      });
+    }).catch((error)=> {
       console.log(error);
       alert("Login Error: ", error.message);
     });
+  }
+
+  gotoHost() {
+    this.props.navigator.push({
+      ref: 'host',
+      title: 'Host',
+      component: Route.getPageHost(),
+    })
   }
 
   render() {
@@ -104,27 +85,27 @@ export default class Index extends Component{
             <TouchableHighlight underlayColor={'#FA6778'} style={{flex:1}}>
               <View style={[styles.sbu_flex, styles.sbu_borderRight]}>
                 <View style={[styles.sub_con_flex, styles.sub_text]}>
-                  <Text style={[styles.font16]}>主机</Text>
+                  <Text style={[styles.font16]} onPress={() => this.gotoHost()}>主机</Text>
                 </View>
                 <View style={[styles.sub_con_flex]}>
-                  <Image style={[styles.sbu_icon_img]} source={{uri:BUIcon[0]}}></Image>
+                  <Image style={[styles.sbu_icon_img]} source={require('.././img/computer.png')}></Image>
                 </View>
               </View>
             </TouchableHighlight>
             <View style={[styles.sbu_flex, styles.sbu_borderRight]}>
               <View style={[styles.sub_con_flex, styles.sub_text, styles.sbu_borderBottom]}>
-                <Text style={[styles.font16]}>数量</Text>
+                <Text style={[styles.font16]} onPress={() => this.gotoHost()}>数量</Text>
               </View>
               <View style={[styles.sub_con_flex, styles.sub_text]}>
-                <Text style={[styles.font16]}>周边</Text>
+                <Text style={[styles.font16]} onPress={() => this.gotoHost()}>报警</Text>
               </View>
             </View>
             <View style={[styles.sbu_flex]}>
               <View style={[styles.sub_con_flex, styles.sub_text, styles.sbu_borderBottom]}>
-                <Text style={[styles.font16]}>{this.state?this.state.hostNumber:""}</Text>
+                <Text style={[styles.font16]} onPress={() => this.gotoHost()}>{this.state?this.state.hostNumber:0}</Text>
               </View>
               <View style={[styles.sub_con_flex, styles.sub_text]}>
-                <Text style={[styles.font16]}>客栈.公寓</Text>
+                <Text style={[styles.font16]} onPress={() => this.gotoHost()}>{this.state?this.state.AlertNumber:0}</Text>
               </View>
             </View>
           </View>
@@ -132,26 +113,26 @@ export default class Index extends Component{
           <View style={[styles.sbu_view, styles.sbu_blue]}>
             <View style={[styles.sbu_flex, styles.sbu_borderRight]}>
               <View style={[styles.sub_con_flex, styles.sub_text]}>
-                <Text style={[styles.font16]}>机票</Text>
+                <Text style={[styles.font16]}>镜像</Text>
               </View>
               <View style={[styles.sub_con_flex]}>
-                <Image style={[styles.sbu_icon_img]} source={{uri:BUIcon[1]}}></Image>
+                <Image style={[styles.sbu_icon_img]} source={require('.././img/image.png')}></Image>
               </View>
             </View>
             <View style={[styles.sbu_flex, styles.sbu_borderRight]}>
               <View style={[styles.sub_con_flex, styles.sub_text, styles.sbu_borderBottom]}>
-                <Text style={[styles.font16]}>火车票</Text>
+                <Text style={[styles.font16]}>数量</Text>
               </View>
               <View style={[styles.sub_con_flex, styles.sub_text]}>
-                <Text style={[styles.font16]}>接收机</Text>
+                <Text style={[styles.font16]}>使用量</Text>
               </View>
             </View>
             <View style={[styles.sbu_flex]}>
               <View style={[styles.sub_con_flex, styles.sub_text, styles.sbu_borderBottom]}>
-                <Text style={[styles.font16]}>汽车票</Text>
+                <Text style={[styles.font16]}>{this.state?this.state.ImageNumber:0}</Text>
               </View>
               <View style={[styles.sub_con_flex, styles.sub_text]}>
-                <Text style={[styles.font16]}>自驾.专车</Text>
+                <Text style={[styles.font16]}>{this.state?this.state.DLNumber:0}</Text>
               </View>
             </View>
           </View>
@@ -159,61 +140,53 @@ export default class Index extends Component{
           <View style={[styles.sbu_view, styles.sbu_green]}>
             <View style={[styles.sbu_flex, styles.sbu_borderRight]}>
               <View style={[styles.sub_con_flex, styles.sub_text]}>
-                <Text style={[styles.font16]}>旅游</Text>
+                <Text style={[styles.font16]}>容器</Text>
               </View>
               <View style={[styles.sub_con_flex]}>
-                <Image style={[styles.sbu_icon_img]} source={{uri:BUIcon[2]}}></Image>
+                <Image style={[styles.sbu_icon_img]} source={require('.././img/cc.png')}></Image>
               </View>
             </View>
             <View style={[styles.sbu_flex, styles.sbu_borderRight]}>
               <View style={[styles.sub_con_flex, styles.sub_text, styles.sbu_borderBottom]}>
-                <Text style={[styles.font16]}>门票.玩乐</Text>
+                <Text style={[styles.font16]}>数量</Text>
               </View>
               <View style={[styles.sub_con_flex, styles.sub_text]}>
-                <Text style={[styles.font16]}>出境WiFi</Text>
+                <Text style={[styles.font16]}>运行</Text>
               </View>
             </View>
             <View style={[styles.sbu_flex]}>
               <View style={[styles.sub_con_flex, styles.sub_text, styles.sbu_borderBottom]}>
-                <Text style={[styles.font16]}>邮轮</Text>
+                <Text style={[styles.font16]}>{this.state?this.state.ContainerNumber:0}</Text>
               </View>
               <View style={[styles.sub_con_flex, styles.sub_text]}>
-                <Text style={[styles.font16]}>签证</Text>
+                <Text style={[styles.font16]}>{this.state?this.state.UseNumber:0}</Text>
               </View>
             </View>
           </View>
           <View style={[styles.sbu_view, styles.sbu_yellow]}>
             <View style={[styles.sbu_flex, styles.sbu_borderRight]}>
               <View style={[styles.sub_con_flex, styles.sub_text]}>
-                <Text style={[styles.font16]}>攻略</Text>
+                <Text style={[styles.font16]}>系统</Text>
               </View>
               <View style={[styles.sub_con_flex]}>
-                <Image style={[styles.sbu_icon_img]} source={{uri:BUIcon[3]}}></Image>
+                <Image style={[styles.sbu_icon_img]} source={require('.././img/xitong.png')}></Image>
               </View>
             </View>
             <View style={[styles.sbu_flex, styles.sbu_borderRight]}>
               <View style={[styles.sub_con_flex, styles.sub_text, styles.sbu_borderBottom]}>
-                <Text style={[styles.font16]}>周末游</Text>
+                <Text style={[styles.font16]}>日志</Text>
               </View>
               <View style={[styles.sub_con_flex, styles.sub_text]}>
-                <Text style={[styles.font16]}>礼品卡</Text>
+                <Text style={[styles.font16]}>负载</Text>
               </View>
             </View>
             <View style={[styles.sbu_flex]}>
               <View style={[styles.sub_con_flex, styles.sub_text, styles.sbu_borderBottom]}>
-                <Text style={[styles.font16]}>美食.购物</Text>
+                <Text style={[styles.font16]}>流量</Text>
               </View>
               <View style={[styles.sub_con_flex, styles.sub_text]}>
                 <Text style={[styles.font16]}>更多</Text>
               </View>
-            </View>
-          </View>
-          <View style={[styles.img_view]}>
-            <View style={[styles.img_flex, {borderRightWidth:0.5}]}>
-              <Image style={[styles.img_wh]} source={{uri:Images[0]}}></Image>
-            </View>
-            <View style={[styles.img_flex, {borderLeftWidth:0,}]}>
-              <Image style={[styles.img_wh]} source={{uri:Images[1]}}></Image>
             </View>
           </View>
         </View>
@@ -302,8 +275,8 @@ let styles = StyleSheet.create({
   		borderRightWidth: 0.5,
   	},
   	sbu_icon_img:{
-  		height:40,
-  		width:40,
+  		height:30,
+  		width:30,
   		resizeMode:Image.resizeMode.contain,
   	},
   	sub_con_flex:{

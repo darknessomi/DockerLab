@@ -7,6 +7,7 @@
 import setting from './setting';
 import login from './login';
 import index from './index';
+import host from './host';
 
 const Route = {
   getPageSetting: function() {
@@ -17,6 +18,9 @@ const Route = {
   },
   getPageIndex: function() {
     return index;
+  },
+  getPageHost: function() {
+    return host;
   },
 };
 
