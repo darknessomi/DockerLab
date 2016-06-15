@@ -2,7 +2,7 @@
 * @Author: omi
 * @Date:   2016-06-11 23:53:23
 * @Last Modified by:   omi
-* @Last Modified time: 2016-06-11 23:53:45
+* @Last Modified time: 2016-06-16 03:15:42
 */
 
 'use strict';
@@ -27,11 +27,11 @@ import {
     ScrollView
 } from 'react-native';
 
-export default class Host extends Component{
+export default class Container extends Component{
   constructor(props) {
     super(props);
     this.list = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-	this.state = {
+	  this.state = {
       dataSource: this.list.cloneWithRows(['host']),
     };
   }
@@ -39,7 +39,7 @@ export default class Host extends Component{
   componentDidMount() {
   	let that = this;
     AV.User.currentAsync().then((currentUser)=>{
-    	let HostQuery = new AV.Query("Host");
+    	let HostQuery = new AV.Query("Container");
 	    HostQuery.equalTo("active", 1);
 	    HostQuery.equalTo("creater", currentUser);
 	    HostQuery.addDescending("createdAt");
@@ -47,10 +47,10 @@ export default class Host extends Component{
 	    	if (Hosts.length > 0) {
 	    		let hostname = [];
 	            for (let i = Hosts.length - 1; i >= 0; i--) {
-	                hostname.push(Hosts[i].get("name") + "   " +Hosts[i].get("address"))
+	                hostname.push(Hosts[i].get("name") + "   port " +Hosts[i].get("port"))
 	            }
 		        that.setState({
-		        	host : Hosts,
+		        	host : Hosts.reverse(),
 			      	dataSource: that.list.cloneWithRows(hostname)
 			    });
 	        }
@@ -79,12 +79,13 @@ export default class Host extends Component{
 
   gotoHostDetail(id, host) {
   	let i = parseInt(id);
-  	alert(host[i].id)
-    // this.props.navigator.push({
-    //   ref: 'host',
-    //   title: 'Host',
-    //   component: Route.getPageHost(),
-    // })
+  	// alert(host[i].id)
+    this.props.navigator.push({
+      ref: 'containerdetail',
+      title: 'ContainerDetail',
+      component: Route.getPageContainerDetail(),
+      passProps: { id: host[i].id },
+    })
   }
 
 

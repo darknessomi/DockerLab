@@ -63,6 +63,22 @@ export default class Index extends Component{
     })
   }
 
+  gotoImage() {
+    this.props.navigator.push({
+      ref: 'image',
+      title: 'Image',
+      component: Route.getPageImage(),
+    })
+  }
+
+  gotoContainer() {
+    this.props.navigator.push({
+      ref: 'container',
+      title: 'Container',
+      component: Route.getPageContainer(),
+    })
+  }
+
   render() {
     return (
       <View style={styles.body}>
@@ -113,7 +129,7 @@ export default class Index extends Component{
           <View style={[styles.sbu_view, styles.sbu_blue]}>
             <View style={[styles.sbu_flex, styles.sbu_borderRight]}>
               <View style={[styles.sub_con_flex, styles.sub_text]}>
-                <Text style={[styles.font16]}>镜像</Text>
+                <Text style={[styles.font16]} onPress={() => this.gotoImage()}>镜像</Text>
               </View>
               <View style={[styles.sub_con_flex]}>
                 <Image style={[styles.sbu_icon_img]} source={require('.././img/image.png')}></Image>
@@ -121,10 +137,10 @@ export default class Index extends Component{
             </View>
             <View style={[styles.sbu_flex, styles.sbu_borderRight]}>
               <View style={[styles.sub_con_flex, styles.sub_text, styles.sbu_borderBottom]}>
-                <Text style={[styles.font16]}>数量</Text>
+                <Text style={[styles.font16]} onPress={() => this.gotoImage()}>数量</Text>
               </View>
               <View style={[styles.sub_con_flex, styles.sub_text]}>
-                <Text style={[styles.font16]}>使用量</Text>
+                <Text style={[styles.font16]} onPress={() => this.gotoImage()}>使用量</Text>
               </View>
             </View>
             <View style={[styles.sbu_flex]}>
@@ -140,7 +156,7 @@ export default class Index extends Component{
           <View style={[styles.sbu_view, styles.sbu_green]}>
             <View style={[styles.sbu_flex, styles.sbu_borderRight]}>
               <View style={[styles.sub_con_flex, styles.sub_text]}>
-                <Text style={[styles.font16]}>容器</Text>
+                <Text style={[styles.font16]} onPress={() => this.gotoContainer()}>容器</Text>
               </View>
               <View style={[styles.sub_con_flex]}>
                 <Image style={[styles.sbu_icon_img]} source={require('.././img/cc.png')}></Image>
@@ -148,10 +164,10 @@ export default class Index extends Component{
             </View>
             <View style={[styles.sbu_flex, styles.sbu_borderRight]}>
               <View style={[styles.sub_con_flex, styles.sub_text, styles.sbu_borderBottom]}>
-                <Text style={[styles.font16]}>数量</Text>
+                <Text style={[styles.font16]} onPress={() => this.gotoContainer()}>数量</Text>
               </View>
               <View style={[styles.sub_con_flex, styles.sub_text]}>
-                <Text style={[styles.font16]}>运行</Text>
+                <Text style={[styles.font16]} onPress={() => this.gotoContainer()}>运行</Text>
               </View>
             </View>
             <View style={[styles.sbu_flex]}>

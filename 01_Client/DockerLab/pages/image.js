@@ -2,7 +2,7 @@
 * @Author: omi
 * @Date:   2016-06-11 23:52:59
 * @Last Modified by:   omi
-* @Last Modified time: 2016-06-11 23:53:42
+* @Last Modified time: 2016-06-16 02:21:07
 */
 
 'use strict';
@@ -27,33 +27,33 @@ import {
     ScrollView
 } from 'react-native';
 
-export default class Host extends Component{
+export default class Images extends Component{
   constructor(props) {
     super(props);
     this.list = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-	this.state = {
-      dataSource: this.list.cloneWithRows(['host']),
+	  this.state = {
+      dataSource: this.list.cloneWithRows(['image']),
     };
   }
 
   componentDidMount() {
   	let that = this;
     AV.User.currentAsync().then((currentUser)=>{
-    	let HostQuery = new AV.Query("Host");
-	    HostQuery.equalTo("active", 1);
-	    HostQuery.equalTo("creater", currentUser);
-	    HostQuery.addDescending("createdAt");
-	    HostQuery.find().then(function(Hosts) {
-	    	if (Hosts.length > 0) {
-	    		let hostname = [];
-	            for (let i = Hosts.length - 1; i >= 0; i--) {
-	                hostname.push(Hosts[i].get("name") + "   " +Hosts[i].get("address"))
+    	let ImageQuery = new AV.Query("Image");
+	    ImageQuery.equalTo("active", 1);
+	    ImageQuery.equalTo("creater", currentUser);
+	    ImageQuery.addDescending("createdAt");
+	    ImageQuery.find().then(function(Images) {
+	    	if (Images.length > 0) {
+	    		let imagename = [];
+	            for (let i = Images.length - 1; i >= 0; i--) {
+	                imagename.push(Images[i].get("name") + "   used " +Images[i].get("use"))
 	            }
 		        that.setState({
-		        	host : Hosts,
-			      	dataSource: that.list.cloneWithRows(hostname)
-			    });
-	        }
+		        	image : Images,
+			      	dataSource: that.list.cloneWithRows(imagename)
+			      });
+	      }
 	    }, function(error){
             console.log(error);
       		alert("Error: ", error.message);
@@ -69,7 +69,7 @@ export default class Host extends Component{
       <ScrollView style={styles.container}>
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={(rowData, sectionID, rowID) => <TouchableHighlight onPress={() => this.gotoHostDetail(rowID, this.state.host)}>
+          renderRow={(rowData, sectionID, rowID) => <TouchableHighlight onPress={() => this.gotoImageDetail(rowID, this.state.image)}>
   			<View style={styles.list}><Text style={styles.text}>{rowData}</Text><Image resizeMode='contain' style={styles.img} source={require('../img/right.png')}></Image></View>
   		</TouchableHighlight>}
         />
@@ -77,9 +77,9 @@ export default class Host extends Component{
     );
   }
 
-  gotoHostDetail(id, host) {
+  gotoImageDetail(id, image) {
   	let i = parseInt(id);
-  	alert(host[i].id)
+  	alert(image[i].id)
     // this.props.navigator.push({
     //   ref: 'host',
     //   title: 'Host',
